@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liro/blocs/location_bloc/location_bloc.dart';
 import 'package:liro/resources/components/input_fields.dart';
+import 'package:liro/resources/constants/app_colors.dart';
 import 'package:liro/resources/constants/app_paddings.dart';
 import 'package:liro/resources/constants/app_spacings.dart';
 
 class SearchScreen extends StatelessWidget {
-  final bool? isFromLocation;
-  SearchScreen({Key? key, this.isFromLocation});
+  final bool isFromLocation;
+  SearchScreen({super.key, required this.isFromLocation});
 
   final _fromController = TextEditingController();
 
@@ -17,20 +18,22 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            AppSpaces.verticalspace20,
             BlocListener<LocationBloc, LocationState>(
               listener: (context, state) {},
-              child: Padding(
-                padding: AppPaddings.horizontalpadding20,
-                child: CustomInputField(
-                  hintText: 'From Location',
-                  controller: _fromController,
-                  onChanged: (searchTerm) {
-                    context
-                        .read<LocationBloc>()
-                        .add(SearchLocationEvent(searchTerm: searchTerm));
-                  },
-                ),
+              child: CustomInputField(
+                fieldIcon: Icons.gps_fixed_sharp,
+                borderColor: Colors.transparent,
+                bgColor: AppColors.darkPrimaryColor,
+                
+                hintText: isFromLocation
+                    ? 'Choose start location'
+                    : 'Choose destination',
+                controller: _fromController,
+                onChanged: (searchTerm) {
+                  context
+                      .read<LocationBloc>()
+                      .add(SearchLocationEvent(searchTerm: searchTerm));
+                },
               ),
             ),
             AppSpaces.verticalspace20,
@@ -47,22 +50,13 @@ class SearchScreen extends StatelessWidget {
                         title:
                             Text(state.fromPredictions[index]['description']),
                         onTap: () {
-                          if (isFromLocation != null && isFromLocation!) {
-                            // Check if it's From location
-                            context.read<LocationBloc>().add(
-                                  LocationFromCoordinatesEvent(
+                          context.read<LocationBloc>().add(
+                                LocationCoordinatesEvent(
                                     placeId: state.fromPredictions[index]
                                         ['place_id'],
-                                  ),
-                                );
-                          } else {
-                            context.read<LocationBloc>().add(
-                                  LocationToCoordinatesEvent(
-                                    placeId: state.fromPredictions[index]
-                                        ['place_id'],
-                                  ),
-                                );
-                          }
+                                    isFromCoordinates: isFromLocation),
+                              );
+
                           Navigator.of(context).pop();
                         },
                       );

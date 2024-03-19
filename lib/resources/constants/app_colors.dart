@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const int _primaryValue = 0xFF00FF97; // Updated with the new primary color
+  static const int _primaryValue =
+      0xFF00FF97; // Updated with the new primary color
 
   static const MaterialColor primaryColor = MaterialColor(
     _primaryValue,
@@ -25,5 +26,5 @@ class AppColors {
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xff000000);
   static const Color greyColor = Color(0xFFF2F6FF);
-
+  static const Color darkPrimaryColor = Color(0xFF272727);
 }

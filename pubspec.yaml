@@ -34,11 +34,14 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.4
+  flutter_polyline_points: ^2.0.0
+  flutter_svg: ^2.0.10+1
   fluttertoast: ^8.2.4
   google_maps_flutter: ^2.6.0
   http: ^1.2.1
   intl: ^0.19.0
   location: ^5.0.3
+  meta: ^1.11.0
   shared_preferences: ^2.2.2
 
 dev_dependencies:
@@ -58,6 +61,8 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/
+    - assets/icons/
+    - assets/google_map/dark_theme.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see
@@ -124,6 +129,5 @@ flutter:
         - asset: assets/fonts/Metropolis-BlackItalic.otf
           weight: 900
           style: italic
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

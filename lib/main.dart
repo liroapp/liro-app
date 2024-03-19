@@ -27,7 +27,7 @@ class Liro extends StatelessWidget {
       SystemUiOverlayStyle(
         statusBarColor: systemBrightness == Brightness.light
             ? Colors.transparent
-            : Colors.black,
+            : AppColors.darkPrimaryColor,
         statusBarIconBrightness: systemBrightness == Brightness.light
             ? Brightness.dark
             : Brightness.light,
@@ -41,9 +41,10 @@ class Liro extends StatelessWidget {
     );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LocationBloc(),)
+        BlocProvider(
+          create: (context) => LocationBloc(),
+        )
       ],
-      
       child: MaterialApp(
         home: const SplashScreen(),
         themeMode: ThemeMode.dark,

@@ -81,13 +81,13 @@ class AppFonts {
     fontWeight: FontWeight.w600,
     color: Colors.grey,
   );
-  static const TextStyle greyText14 = TextStyle(
-    fontSize: 14,
-    fontWeight: FontWeight.w600,
+  static const TextStyle greyText16 = TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
     color: Colors.grey,
   );
   //Grey Color with Letter Space
-  
+
   static const TextStyle greyText14withLetterSpace = TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w600,
@@ -100,7 +100,7 @@ class AppFonts {
     fontWeight: FontWeight.w700,
     color: Colors.red,
   );
-   static const TextStyle redColorText16 = TextStyle(
+  static const TextStyle redColorText16 = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.w600,
     color: Colors.red,

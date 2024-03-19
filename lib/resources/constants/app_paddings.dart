@@ -14,8 +14,12 @@ class AppPaddings {
     static const EdgeInsetsGeometry fullpadding20 = EdgeInsets.all(20);
 
   //hotizontal paddings
+  static const EdgeInsetsGeometry horizontalpadding10 = EdgeInsets.symmetric(horizontal: 10);
   static const EdgeInsetsGeometry horizontalpadding20 = EdgeInsets.symmetric(horizontal: 20);
 
   //verticalpadding
-
+  static const EdgeInsetsGeometry verticalpadding5 = EdgeInsets.symmetric(vertical: 5);
+  static const EdgeInsetsGeometry verticalpadding10 = EdgeInsets.symmetric(vertical: 10);
+  static const EdgeInsetsGeometry verticalpadding15 = EdgeInsets.symmetric(vertical: 15);
+  static const EdgeInsetsGeometry verticalpadding20 = EdgeInsets.symmetric(vertical: 20);
 }

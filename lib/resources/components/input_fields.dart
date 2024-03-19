@@ -11,12 +11,12 @@ class CustomInputField extends StatelessWidget {
   final Color? bgColor;
   final Color? borderColor;
   final bool? enabled;
-  final void Function(String)? onChanged; // Add onChanged callback
-  final void Function()? onTap; // Add onTap callback
-  final bool editable; // Add editable property
+  final void Function(String)? onChanged;
+  final void Function()? onTap;
+  final bool editable;
 
   const CustomInputField({
-    super.key, 
+    super.key,
     this.fieldIcon,
     required this.hintText,
     this.maxLines,
@@ -25,10 +25,10 @@ class CustomInputField extends StatelessWidget {
     this.validator,
     this.bgColor,
     this.borderColor,
-    this.enabled=true,
-    this.onChanged, // Include onChanged in the constructor
+    this.enabled = true,
+    this.onChanged,
     this.editable = false,
-    this.onTap, // Include editable in the constructor
+    this.onTap,
   });
 
   @override
@@ -56,13 +56,13 @@ class CustomInputField extends StatelessWidget {
           validator: validator,
           keyboardType: keyboardType,
           maxLines: maxLines ?? 1,
-          onChanged: onChanged, // Pass onChanged callback to TextFormField
+          onChanged: onChanged,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
-            color: AppColors.secondaryColor,
+            color: AppColors.whiteColor,
           ),
-          readOnly: editable, // Use editable property here
+          readOnly: editable,
           decoration: InputDecoration(
             prefixIcon: Icon(
               fieldIcon ?? Icons.abc,
@@ -71,28 +71,28 @@ class CustomInputField extends StatelessWidget {
             ),
             hintText: hintText,
             hintStyle: TextStyle(
-              color: Colors.grey.shade400,
+              color: Colors.grey.shade600,
               fontSize: 14,
-              fontWeight: FontWeight.w600,
+              fontWeight: FontWeight.w500,
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
-              borderSide: const BorderSide(
-                color: Colors.grey,
+              borderSide: BorderSide(
+                color: borderColor ?? Colors.grey,
                 width: 1,
               ),
             ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
               borderSide: const BorderSide(
-                color: Colors.red,
+                color: Colors.amber,
                 width: 1,
               ),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
               borderSide: const BorderSide(
-                color: Colors.black,
+                color: Colors.transparent,
                 width: 1,
               ),
             ),

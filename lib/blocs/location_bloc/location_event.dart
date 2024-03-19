@@ -20,6 +20,12 @@ class LocationToCoordinatesEvent extends LocationEvent {
   LocationToCoordinatesEvent({required this.placeId});
 }
 
+class LocationCoordinatesEvent extends LocationEvent {
+  final String placeId;
+  final bool isFromCoordinates;
+  LocationCoordinatesEvent({required this.placeId, required this.isFromCoordinates});
+}
+
 class LocationGetDirectionsEvent extends LocationEvent {
   // final LatLng fromCoordinates;
   // final LatLng toCoordinates;

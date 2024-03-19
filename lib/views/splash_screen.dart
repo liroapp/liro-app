@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:liro/resources/assets/app_assets.dart';
 import 'package:liro/resources/constants/app_colors.dart';
 import 'package:liro/views/home_screen.dart';
 
@@ -19,7 +20,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Set the status bar color
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
         statusBarColor: AppColors.secondaryColor,
         statusBarIconBrightness: Brightness.light));
@@ -31,7 +31,7 @@ class _SplashScreenState extends State<SplashScreen> {
           Center(
             child: Image(
               image: AssetImage(
-                'assets/images/liro-logo.png',
+                AppAssets.splashScreenLogo,
               ),
               fit: BoxFit.cover,
               height: 50,
@@ -45,7 +45,7 @@ class _SplashScreenState extends State<SplashScreen> {
   gotoDasboard(BuildContext ctx) async {
     await Future.delayed(const Duration(seconds: 2));
     // ignore: use_build_context_synchronously
-    Navigator.of(ctx).pushReplacement(
-        MaterialPageRoute(builder: (context) => const HomeScreen()));
+    Navigator.of(ctx)
+        .pushReplacement(MaterialPageRoute(builder: (context) => HomeScreen()));
   }
 }
