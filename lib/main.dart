@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:liro/blocs/location_bloc/location_bloc.dart';
 import 'package:liro/data/shared_preferences/shared_preferences.dart';
 import 'package:liro/resources/constants/app_colors.dart';
 import 'package:liro/views/splash_screen.dart';
@@ -10,6 +11,7 @@ void main() async {
   await SharedPref.instance.initStorage();
   runApp(const Liro());
 }
+
 class Liro extends StatelessWidget {
   const Liro({super.key});
 
@@ -23,8 +25,9 @@ class Liro extends StatelessWidget {
 
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor:
-            systemBrightness == Brightness.light ? Colors.transparent : Colors.black,
+        statusBarColor: systemBrightness == Brightness.light
+            ? Colors.transparent
+            : Colors.black,
         statusBarIconBrightness: systemBrightness == Brightness.light
             ? Brightness.dark
             : Brightness.light,
@@ -37,27 +40,27 @@ class Liro extends StatelessWidget {
       ),
     );
     return MultiBlocProvider(
-      providers: const [
-       
+      providers: [
+        BlocProvider(create: (context) => LocationBloc(),)
       ],
+      
       child: MaterialApp(
         home: const SplashScreen(),
-        theme: ThemeData(
+        themeMode: ThemeMode.dark,
+        darkTheme: ThemeData(
             progressIndicatorTheme: ProgressIndicatorThemeData(
               color: AppColors.primaryColor.shade100,
               circularTrackColor: AppColors.primaryColor,
             ),
-            brightness: Brightness.light, // Use the dark theme
-            fontFamily: 'metropolis', // Set your custom font here
+            brightness: Brightness.dark,
+            fontFamily: 'metropolis',
             primaryColor: AppColors.primaryColor,
             primaryColorDark: AppColors.primaryColor,
             primaryColorLight: AppColors.primaryColor,
             hintColor: AppColors.primaryColor,
-            appBarTheme: const AppBarTheme(
-              backgroundColor: AppColors.whiteColor
-            )
-          ),
-           debugShowCheckedModeBanner: false,
+            appBarTheme:
+                const AppBarTheme(backgroundColor: AppColors.whiteColor)),
+        debugShowCheckedModeBanner: false,
       ),
     );
   }
