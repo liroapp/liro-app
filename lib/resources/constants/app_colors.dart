@@ -27,4 +27,7 @@ class AppColors {
   static const Color blackColor = Color(0xff000000);
   static const Color greyColor = Color(0xFFF2F6FF);
   static const Color darkPrimaryColor = Color(0xFF272727);
+  static const Color scaffoldColor = Color(0xFF00291B);
+  static const Color searchScreenBg = Color(0xFF222222);
+  static const Color loginScreenHeroColor = Color(0xFF003220);
 }

@@ -15,10 +15,12 @@ class ApiServices {
       print('Data:$data');
     }
     Map fetchedData = {};
+
     final url = Uri.parse(apiurl);
     final body = jsonEncode(data);
     try {
       final response = await http.post(url, body: body, headers: _headers);
+
       fetchedData = getResponse(response);
     } catch (e) {
       debugPrint(e.toString());
@@ -101,8 +103,10 @@ class ApiServices {
     switch (response.statusCode) {
       case 200:
         return (jsonDecode(response.body));
+      case 201:
+        return (jsonDecode(response.body));
       case 400:
-        throw BadRequestException();
+        return (jsonDecode(response.body));
       default:
         throw BadRequestException();
     }

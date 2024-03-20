@@ -10,11 +10,13 @@ class CustomInputField extends StatelessWidget {
   final String? Function(String?)? validator;
   final Color? bgColor;
   final Color? borderColor;
+  final Color? focusedborderColor;
   final bool? enabled;
   final void Function(String)? onChanged;
   final void Function()? onTap;
   final bool editable;
-
+  final bool autofocus;
+  final bool obscure; // Added obscure property
   const CustomInputField({
     super.key,
     this.fieldIcon,
@@ -25,10 +27,13 @@ class CustomInputField extends StatelessWidget {
     this.validator,
     this.bgColor,
     this.borderColor,
+    this.focusedborderColor,
     this.enabled = true,
     this.onChanged,
     this.editable = false,
     this.onTap,
+    this.autofocus = false,
+    this.obscure = false, // Added default value
   });
 
   @override
@@ -44,6 +49,8 @@ class CustomInputField extends StatelessWidget {
           // ),
         ),
         child: TextFormField(
+          obscureText: obscure, // Set obscureText based on the 'obscure' property
+          autofocus: autofocus,
           onTap: () {
             if (onTap != null && editable) {
               onTap!();
@@ -91,8 +98,8 @@ class CustomInputField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(0),
-              borderSide: const BorderSide(
-                color: Colors.transparent,
+              borderSide: BorderSide(
+                color: focusedborderColor ?? Colors.transparent,
                 width: 1,
               ),
             ),

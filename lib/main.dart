@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:liro/blocs/location_bloc/location_bloc.dart';
+import 'package:liro/blocs/login_bloc/login_bloc.dart';
 import 'package:liro/data/shared_preferences/shared_preferences.dart';
-import 'package:liro/resources/constants/app_colors.dart';
+import 'package:liro/resources/constants/app_theme.dart';
 import 'package:liro/views/splash_screen.dart';
 
 void main() async {
@@ -20,14 +21,13 @@ class Liro extends StatelessWidget {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    // Detect the current brightness mode
-    Brightness systemBrightness = MediaQuery.of(context).platformBrightness;
 
+    Brightness systemBrightness = MediaQuery.of(context).platformBrightness;
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
         statusBarColor: systemBrightness == Brightness.light
             ? Colors.transparent
-            : AppColors.darkPrimaryColor,
+            : Colors.transparent,
         statusBarIconBrightness: systemBrightness == Brightness.light
             ? Brightness.dark
             : Brightness.light,
@@ -41,26 +41,13 @@ class Liro extends StatelessWidget {
     );
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) => LocationBloc(),
-        )
+        BlocProvider(create: (_) => LoginBloc()),
+        BlocProvider(create: (_) => LocationBloc()),
       ],
       child: MaterialApp(
         home: const SplashScreen(),
         themeMode: ThemeMode.dark,
-        darkTheme: ThemeData(
-            progressIndicatorTheme: ProgressIndicatorThemeData(
-              color: AppColors.primaryColor.shade100,
-              circularTrackColor: AppColors.primaryColor,
-            ),
-            brightness: Brightness.dark,
-            fontFamily: 'metropolis',
-            primaryColor: AppColors.primaryColor,
-            primaryColorDark: AppColors.primaryColor,
-            primaryColorLight: AppColors.primaryColor,
-            hintColor: AppColors.primaryColor,
-            appBarTheme:
-                const AppBarTheme(backgroundColor: AppColors.whiteColor)),
+        darkTheme: AppTheme.darkTheme(context),
         debugShowCheckedModeBanner: false,
       ),
     );

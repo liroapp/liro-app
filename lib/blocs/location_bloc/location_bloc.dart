@@ -1,10 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liro/repositories/location_repo.dart';
-import 'package:meta/meta.dart';
 
 part 'location_event.dart';
 part 'location_state.dart';
@@ -12,13 +10,8 @@ part 'location_state.dart';
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   LocationBloc() : super(LocationInitial()) {
     on<SearchLocationEvent>(_searchLocation);
-    on<LocationFromCoordinatesEvent>(_getFromCoordinates);
-    on<LocationToCoordinatesEvent>(_getToCoordinates);
     on<LocationCoordinatesEvent>(_locationCoordinates);
-
-    on<LocationGetDirectionsEvent>(
-      _locationGetDirections,
-    );
+    on<LocationGetDirectionsEvent>(_locationGetDirections);
   }
 
   LatLng fromCoordinates = const LatLng(0.0, 0.0);
@@ -42,32 +35,6 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
       }
     } catch (error) {
       emit(LocationSearchErrorState(error: 'An error occurred: $error'));
-    }
-  }
-
-  Future<void> _getFromCoordinates(
-      LocationFromCoordinatesEvent event, Emitter<LocationState> emit) async {
-    try {
-      final coordinates =
-          await LocationRepo().getLocationCoordinates(event.placeId);
-      if (coordinates.data != null) {
-        final location = coordinates.data['results'][0]['geometry']['location'];
-        final LatLng placeCoordinates =
-            LatLng(location['lat'], location['lng']);
-        fromCoordinates = placeCoordinates;
-        fromLocation = coordinates.data['results'][0]['formatted_address'];
-        // emit(FromLocationSelectedState(
-        //     fromLocation: fromLocation, fromCoordinates: fromCoordinates));
-        emit(LocationSelectedState(
-            fromLocation: fromLocation,
-            fromCoordinates: fromCoordinates,
-            toLocation: toLocation,
-            toCoordinates: toCoordinates));
-      }
-    } catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
     }
   }
 
@@ -102,84 +69,34 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
     }
   }
 
-  Future<void> _getToCoordinates(
-      LocationToCoordinatesEvent event, Emitter<LocationState> emit) async {
-    try {
-      final coordinates =
-          await LocationRepo().getLocationCoordinates(event.placeId);
-      if (coordinates.data != null) {
-        final location = coordinates.data['results'][0]['geometry']['location'];
-        final LatLng placeCoordinates =
-            LatLng(location['lat'], location['lng']);
-        toCoordinates = placeCoordinates;
-        toLocation = coordinates.data['results'][0]['formatted_address'];
-        // emit(ToLocationSelectedState(
-        //     toLocation: toLocation, toCoordinates: toCoordinates));
-        emit(LocationSelectedState(
-            fromLocation: fromLocation,
-            fromCoordinates: fromCoordinates,
-            toLocation: toLocation,
-            toCoordinates: toCoordinates));
-        if (kDebugMode) {
-          print(toLocation);
-          print(toCoordinates);
-          print(fromLocation);
-          print(fromCoordinates);
-        }
-      }
-    } catch (error) {
-      if (kDebugMode) {
-        print(error);
-      }
-    }
-  }
-
-  FutureOr<void> _locationGetDirections(event, emit) async {
-    final directions =
-        await LocationRepo().getDirections(fromCoordinates, toCoordinates);
-    if (kDebugMode) {
-      print(directions);
-    }
+  Future<void> _locationGetDirections(
+      LocationGetDirectionsEvent event, Emitter<LocationState> emit) async {
+    final response = await LocationRepo().getDirections({
+      'fromCoordinateslatitude': fromCoordinates.latitude,
+      'fromCoordinateslongitude': fromCoordinates.longitude,
+      'toCoordinateslatitude': toCoordinates.latitude,
+      'toCoordinateslongitude': toCoordinates.longitude,
+    });
 
     final List<LatLng> polylineCoordinates = [];
-    final routes = directions.data['routes']; // Cast to appropriate type
-    for (var route in routes) {
-      final overviewPolyline = route['overview_polyline'];
-      final points = overviewPolyline['points'];
-      final List<PointLatLng> decodedPolyline =
-          PolylinePoints().decodePolyline(points);
-      // Convert PointLatLng to LatLng
-      for (var point in decodedPolyline) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
-      }
-    }
-    if (routes.isNotEmpty) {
-      final Map<String, dynamic> route =
-          routes[0]; // Assuming only one route is returned
-      final List<dynamic> legs = route['legs'];
+    final distanceText = response.data['distance']['text'];
+    final durationText = response.data['duration']['text'];
+    final List<dynamic> polyline = response.data['polyline'];
 
-      if (legs.isNotEmpty) {
-        final Map<String, dynamic> leg =
-            legs[0]; // Assuming only one leg is present
-
-        // Extract distance and duration text
-        distance = leg['distance']['text'];
-        duration = leg['duration']['text'];
-      }
-      emit(LocationSelectedState(
-          fromLocation: fromLocation,
-          fromCoordinates: fromCoordinates,
-          toLocation: toLocation,
-          toCoordinates: toCoordinates,
-          polylineCoordinates: polylineCoordinates,
-          distance: distance,
-          duration: duration
-          ));
-      // emit(LocationDirectionsLoadedState(
-      //   polylineCoordinates: polylineCoordinates,
-      //   fromCoordinates: fromCoordinates,
-      //   toCoordinates: toCoordinates,
-      // ));
+    for (var point in polyline) {
+      polylineCoordinates.add(LatLng(point[0], point[1]));
     }
+
+    emit(LocationSelectedState(
+      fromLocation: fromLocation,
+      fromCoordinates: fromCoordinates,
+      toLocation: toLocation,
+      toCoordinates: toCoordinates,
+      polylineCoordinates: polylineCoordinates,
+      distance: distanceText,
+      duration: durationText,
+    ));
   }
+
+  
 }
