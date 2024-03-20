@@ -65,6 +65,7 @@ class SearchScreen extends StatelessWidget {
                             AppAssets.destinationIcon,
                             width: 20,
                             height: 20,
+                            // ignore: deprecated_member_use
                             color: Colors.grey,
                           ),
                         ),

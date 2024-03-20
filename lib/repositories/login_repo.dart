@@ -7,6 +7,7 @@ import 'package:liro/resources/app_urls/app_urls.dart';
 import 'package:liro/resources/constants/app_colors.dart';
 import 'package:liro/resources/constants/app_fonts.dart';
 import 'package:liro/utils/data_class.dart';
+import 'package:liro/utils/permissions.dart';
 import 'package:liro/views/home_screen.dart';
 import 'package:liro/views/login_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -17,7 +18,7 @@ class LoginRepo {
 
   void validateUser(context) async {
     final PermissionStatus permissionStatus =
-        await _getLocationPermission(context); // Ask for location permission
+        await getLocationPermission(context); // Ask for location permission
     if (permissionStatus == PermissionStatus.granted) {
       final accessToken = await SharedPref.instance.getAccessToken();
       if (accessToken != null) {
@@ -33,6 +34,7 @@ class LoginRepo {
 
   gotoLogin(BuildContext ctx) async {
     await Future.delayed(const Duration(seconds: 2));
+    // ignore: use_build_context_synchronously
     Navigator.of(ctx).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()));
   }
@@ -56,44 +58,5 @@ class LoginRepo {
     } catch (e) {
       return const LatLng(11.315156, 75.997550);
     }
-  }
-
-  Future<PermissionStatus> _getLocationPermission(BuildContext context) async {
-    PermissionStatus permissionStatus = await Permission.location.request();
-    if (permissionStatus.isGranted) {
-      // Permission granted, do nothing
-    } else if (permissionStatus.isDenied) {
-      // Permission denied, show snackbar
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.blackColor,
-          content: Text(
-            'Location permission is required.',
-            style: AppFonts.primaryColorText12,
-          ),
-          action: SnackBarAction(
-            label: 'Open Settings',
-            
-            onPressed: () {
-              openAppSettings();
-            },
-          ),
-        ),
-      );
-    } else if (permissionStatus.isPermanentlyDenied) {
-      // Permission permanently denied, show snackbar
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          backgroundColor: AppColors.blackColor,
-          content: Text(
-            'Location permission is denied. Please Enable in settings',
-            style: AppFonts.primaryColorText12,
-          ),
-        ),
-      );
-    }
-    return permissionStatus;
   }
 }

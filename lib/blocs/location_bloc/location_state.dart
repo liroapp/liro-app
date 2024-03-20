@@ -26,6 +26,7 @@ final class LocationSelectedState extends LocationState {
   final LatLng toCoordinates;
   final List<LatLng> polylineCoordinates;
   final String? duration;
+  // ignore: annotate_overrides
   final String? distance;
   
   LocationSelectedState(
