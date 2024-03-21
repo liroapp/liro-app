@@ -10,15 +10,24 @@ import 'package:liro/resources/components/home_screen/location_search_area.dart'
 import 'package:liro/resources/constants/app_colors.dart';
 
 // ignore: must_be_immutable
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key, 
+class HomeScreen extends StatefulWidget {
+  HomeScreen({
+    super.key,
     required this.currentLocation,
-   
   });
   LatLng currentLocation;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   LatLng? fromCoordinates;
+
   LatLng? toCoordinates;
+
   List<LatLng> polylineCoordinates = [];
+
   final Completer<GoogleMapController> _controller =
       Completer<GoogleMapController>();
 
@@ -39,8 +48,13 @@ class HomeScreen extends StatelessWidget {
                       polylineCoordinates = state.polylineCoordinates;
                       fromCoordinates = state.fromCoordinates;
                       toCoordinates = state.toCoordinates;
+                      if (state.polylineCoordinates.isNotEmpty) {
+                        moveCameraToMarkerPosition(
+                            state.polylineCoordinates.first);
+                      }if (fromCoordinates != null) {
+                        moveCameraToMarkerPosition(fromCoordinates!);
+                      }
                     }
-
                     Set<Marker> markers = {};
                     if (fromCoordinates != null) {
                       markers.add(
@@ -60,7 +74,7 @@ class HomeScreen extends StatelessWidget {
                     }
                     return GoogleMap(
                       initialCameraPosition: CameraPosition(
-                        target: currentLocation,
+                        target: widget.currentLocation,
                         zoom: 10,
                       ),
                       markers: markers,
@@ -94,5 +108,10 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> moveCameraToMarkerPosition(LatLng markerPosition) async {
+    final GoogleMapController controller = await _controller.future;
+    controller.animateCamera(CameraUpdate.newLatLng(markerPosition));
   }
 }

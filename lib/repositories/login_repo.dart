@@ -4,8 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:liro/data/network/network_api_services.dart';
 import 'package:liro/data/shared_preferences/shared_preferences.dart';
 import 'package:liro/resources/app_urls/app_urls.dart';
-import 'package:liro/resources/constants/app_colors.dart';
-import 'package:liro/resources/constants/app_fonts.dart';
 import 'package:liro/utils/data_class.dart';
 import 'package:liro/utils/permissions.dart';
 import 'package:liro/views/home_screen.dart';
