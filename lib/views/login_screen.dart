@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const Text(
-                          'Email',
+                          'Username',
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w600,
@@ -75,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         AppSpaces.verticalspace10,
                         //Email Field
                         CustomInputField(
-                          hintText: 'Enter your email',
+                          hintText: 'Enter your username',
                           fieldIcon: Icons.email_outlined,
                           controller: usernameController,
                           focusedborderColor: AppColors.primaryColor,

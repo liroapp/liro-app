@@ -51,8 +51,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (state.polylineCoordinates.isNotEmpty) {
                         moveCameraToMarkerPosition(
                             state.polylineCoordinates.first);
-                      }if (fromCoordinates != null) {
+                      }
+                      if (fromCoordinates != const LatLng(0, 0)) {
                         moveCameraToMarkerPosition(fromCoordinates!);
+                      }
+                      if (toCoordinates != const LatLng(0, 0)) {
+                        moveCameraToMarkerPosition(toCoordinates!);
                       }
                     }
                     Set<Marker> markers = {};
