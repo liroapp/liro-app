@@ -129,6 +129,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               isLoading: isLoading,
                               buttonText: 'Login',
                               buttonFunction: () async {
+                                print(username);
+                                print(password);
                                 context.read<LoginBloc>().add(LoginUserEvent(
                                     username: username, password: password));
                               },

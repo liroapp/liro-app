@@ -15,6 +15,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   FutureOr<void> loginUserEvent(
       LoginUserEvent event, Emitter<LoginState> emit) async {
     final userData = {'username': event.username, 'password': event.password};
+    print(userData);
     emit(LoginLoadingState());
     final response = await LoginRepo().loginUser(userData);
     if (response.data['token'] != null) {
@@ -32,7 +33,5 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         .setString(SharedPref.userName, response['user']);
     SharedPref.instance.sharedPref
         .setString(SharedPref.accessToken, response['token']);
-
-  
   }
 }

@@ -1,6 +1,6 @@
 class AppUrls {
   //Base Url
-  static const String baseUrl = 'https://liroapp-server-node-js-mongob-jwt-b875.onrender.com';
+  static const String baseUrl = 'https://liroapp-server-node-js-mongob-jwt-b875-cikp.onrender.com';
 
   //User Login
   static const String userLogin = '$baseUrl/login';
